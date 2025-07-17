@@ -277,3 +277,202 @@ yarn test
 ## License
 
 © 2024 tentwenty. All rights reserved. 
+
+## Deployment Options
+
+### 1. Vercel (Recommended)
+
+Vercel is the easiest way to deploy your Next.js app with zero configuration.
+
+1. **Prepare for Deployment**
+   ```bash
+   # Build your application locally to test
+   npm run build
+   ```
+
+2. **Deploy to Vercel**
+   - Create an account on [Vercel](https://vercel.com)
+   - Install Vercel CLI:
+     ```bash
+     npm install -g vercel
+     ```
+   - Login to Vercel:
+     ```bash
+     vercel login
+     ```
+   - Deploy:
+     ```bash
+     vercel
+     ```
+
+   Alternatively, you can:
+   - Push your code to GitHub
+   - Import your repository in Vercel dashboard
+   - Vercel will automatically deploy your application
+
+   **Benefits of Vercel:**
+   - Zero-configuration
+   - Automatic HTTPS
+   - CI/CD built-in
+   - Automatic preview deployments
+   - Edge Functions support
+   - Built-in monitoring and analytics
+
+### 2. Docker Deployment
+
+1. **Create a Dockerfile**
+   ```dockerfile
+   # Base image
+   FROM node:18-alpine
+
+   # Create app directory
+   WORKDIR /app
+
+   # Install dependencies
+   COPY package*.json ./
+   RUN npm install
+
+   # Copy source code
+   COPY . .
+
+   # Build application
+   RUN npm run build
+
+   # Expose port
+   EXPOSE 3000
+
+   # Start application
+   CMD ["npm", "start"]
+   ```
+
+2. **Build and Run Docker Image**
+   ```bash
+   # Build image
+   docker build -t ticktock .
+
+   # Run container
+   docker run -p 3000:3000 ticktock
+   ```
+
+3. **Deploy to Cloud Platforms**
+   - AWS ECS
+   - Google Cloud Run
+   - Azure Container Instances
+   - Digital Ocean App Platform
+
+### 3. Traditional Hosting (e.g., AWS, DigitalOcean)
+
+1. **Prepare Application**
+   ```bash
+   # Build application
+   npm run build
+
+   # Install PM2 globally
+   npm install -g pm2
+   ```
+
+2. **Server Setup**
+   - Set up a Ubuntu/Debian server
+   - Install Node.js and npm
+   - Install and configure Nginx
+   - Set up SSL with Let's Encrypt
+
+3. **Deployment Process**
+   ```bash
+   # Clone repository
+   git clone <repository-url>
+   cd TenTwenty
+
+   # Install dependencies
+   npm install
+
+   # Build application
+   npm run build
+
+   # Start with PM2
+   pm2 start npm --name "ticktock" -- start
+   ```
+
+4. **Nginx Configuration**
+   ```nginx
+   server {
+       listen 80;
+       server_name your-domain.com;
+
+       location / {
+           proxy_pass http://localhost:3000;
+           proxy_http_version 1.1;
+           proxy_set_header Upgrade $http_upgrade;
+           proxy_set_header Connection 'upgrade';
+           proxy_set_header Host $host;
+           proxy_cache_bypass $http_upgrade;
+       }
+   }
+   ```
+
+### Environment Variables for Production
+
+Create a `.env.production` file with the following variables:
+```env
+NEXT_PUBLIC_API_URL=https://your-api-domain.com
+NEXTAUTH_URL=https://your-domain.com
+NEXTAUTH_SECRET=your-production-secret
+DATABASE_URL=your-database-url
+```
+
+### Production Checklist
+
+1. **Security**
+   - [ ] Set up proper environment variables
+   - [ ] Enable HTTPS
+   - [ ] Configure CORS policies
+   - [ ] Set up rate limiting
+   - [ ] Enable security headers
+
+2. **Performance**
+   - [ ] Enable caching
+   - [ ] Configure CDN
+   - [ ] Optimize images and assets
+   - [ ] Enable compression
+
+3. **Monitoring**
+   - [ ] Set up error tracking (e.g., Sentry)
+   - [ ] Configure performance monitoring
+   - [ ] Set up logging
+   - [ ] Enable uptime monitoring
+
+4. **Backup**
+   - [ ] Configure database backups
+   - [ ] Set up disaster recovery plan
+   - [ ] Document restore procedures
+
+### Continuous Integration/Deployment (CI/CD)
+
+1. **GitHub Actions Example**
+   ```yaml
+   name: Deploy
+   on:
+     push:
+       branches: [ main ]
+   
+   jobs:
+     deploy:
+       runs-on: ubuntu-latest
+       steps:
+         - uses: actions/checkout@v2
+         - uses: actions/setup-node@v2
+           with:
+             node-version: '18'
+         - run: npm ci
+         - run: npm run test
+         - run: npm run build
+         - uses: vercel/actions/cli@v2
+           with:
+             vercel-token: ${{ secrets.VERCEL_TOKEN }}
+   ```
+
+2. **Automated Testing**
+   - Run tests before deployment
+   - Check code quality
+   - Verify build process
+   - Test environment variables 
