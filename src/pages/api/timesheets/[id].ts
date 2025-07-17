@@ -9,19 +9,19 @@ let timesheetEntries: TimesheetEntry[] = [
     id: '1',
     weekNumber: 1,
     date: '2024-01-01',
-    status: 'approved',
+    status: 'COMPLETED',
   },
   {
     id: '2',
     weekNumber: 2,
     date: '2024-01-08',
-    status: 'pending',
+    status: 'INCOMPLETE',
   },
   {
     id: '3',
     weekNumber: 3,
     date: '2024-01-15',
-    status: 'rejected',
+    status: 'MISSING',
   },
 ];
 
