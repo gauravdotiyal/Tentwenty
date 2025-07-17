@@ -21,7 +21,7 @@ const timesheetEntries: TimesheetEntry[] = [
     id: '3',
     weekNumber: 3,
     date: '2024-01-15',
-    status: 'IN-REVIEW',
+    status: 'INCOMPLETE',
   },
   {
     id: '4',
