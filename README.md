@@ -143,7 +143,7 @@ A modern, user-friendly timesheet management application built with Next.js, Typ
 - Development: [http://localhost:3000](http://localhost:3000)
 - Default test credentials:
   - Email: user@example.com
-  - Password: password123
+  - Password: password
 
 ## Assumptions and Implementation Notes
 
